@@ -53,8 +53,7 @@ router.put("/:id", async (req, res) => {
 
   const result = await db.query(
     `UPDATE signs
-     SET sign_title = $1, sign_video_url = $2, sign_image_url = $3,
-         sign_section = $4, tag_id = $5
+    SET sign_title = $1, sign_video_url = $2, sign_image_url = $3 sign_section = $4, tag_id = $5
      WHERE sign_id = $6 RETURNING *`,
     [
       dto.sign_title,

@@ -47,6 +47,15 @@ Las rutas existentes están ubicadas en el [archivo de rutas](src/routes/user.ro
 
 > /users
 
+{
+  user_id,
+  user_name,
+  user_password,
+  user_birth_date,
+  user_knowledge_level,
+  role_id
+}
+
 #### POST
 
 /
@@ -59,3 +68,52 @@ Las rutas existentes están ubicadas en el [archivo de rutas](src/routes/user.ro
 
 /all
 : Obtener toda la información de todos los usuarios (develop)
+
+### Signs
+
+> /signs
+
+{
+  sign_id,
+  sign_title,
+  sign_video_url,
+  sign_image_url,
+  sign_section,
+  tag_id
+}
+
+#### POST
+
+/
+: Crear una seña nueva
+
+#### GET
+
+/
+: Obtener todas las señas
+
+/:id
+: Obtener la seña de id especificada
+
+### Synonyms
+
+> /signs/:signId/synonyms
+
+{
+  synonym_id,
+  synonym_word,
+  sign_id
+}
+
+#### POST
+
+/
+: Crea un nuevo sinónimo para la seña de id especificada
+
+#### GET
+
+/
+: Obtener todos los sinónimos de todas las señas.
+
+/:id
+: Obtiene todas los sinónimos de la seña de id especificada.
