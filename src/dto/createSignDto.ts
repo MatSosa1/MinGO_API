@@ -1,0 +1,37 @@
+import {
+  IsNotEmpty,
+  IsString,
+  IsInt,
+  IsOptional,
+  IsEnum,
+  IsUrl,
+  MinLength,
+} from "class-validator";
+
+export enum SignSection {
+  PRINCIPIANTE = "Principiante",
+  INTERMEDIO = "Intermedio",
+  AVANZADO = "Avanzado",
+  FRASES_COMUNES = "Frases Comunes",
+}
+
+export class CreateSignDto {
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(2)
+  sign_title!: string;
+
+  @IsNotEmpty()
+  @IsUrl()
+  sign_video_url!: string;
+
+  @IsOptional()
+  @IsUrl()
+  sign_image_url?: string;
+
+  @IsEnum(SignSection)
+  sign_section!: SignSection;
+
+  @IsInt()
+  tag_id!: number;
+}
