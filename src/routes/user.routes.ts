@@ -74,7 +74,7 @@ router.patch("/knowledge", async (req, res) => {
       `UPDATE users
       SET user_knowledge_level = $2
       WHERE user_id = $1
-      RETURNING user_id, user_name, user_knowledge_level`,
+      RETURNING *`,
       [ userId, knowledgeLevel ]
     );
 
