@@ -117,3 +117,17 @@ Las rutas existentes están ubicadas en el [archivo de rutas](src/routes/user.ro
 
 /:id
 : Obtiene todas los sinónimos de la seña de id especificada.
+
+### Tags
+
+> /tags
+
+#### POST
+
+/
+: Crea una nueva etiqueta
+
+#### GET
+
+/
+: Obtener todas las etiquetas
