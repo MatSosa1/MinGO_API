@@ -4,4 +4,6 @@ export class User {
   correo!: string;
   contraseña!: string;
   fechaNacimiento!: Date;
+  nivelConocimiento!: String;
+  categoriaEdad!: number;
 }

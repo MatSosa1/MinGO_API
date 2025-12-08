@@ -12,4 +12,10 @@ export class CreateUserDto {
 
   @IsInt()
   role_id!: number;
+
+  @IsNotEmpty()
+  knowledge_level!: string;
+
+  @IsInt()
+  category_age!: number;
 }

@@ -15,13 +15,13 @@ router.post("/", async (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const { user_name, user_password, user_birth_date, role_id } = dto;
+  const { user_name, user_password, user_birth_date } = dto;
 
   try {
     const result = await db.query(
       `INSERT INTO users (user_name, user_password, user_birth_date)
        VALUES ($1, $2, $3) RETURNING *`,
-      [user_name, user_password, user_birth_date, role_id]
+      [user_name, user_password, user_birth_date]
     );
 
     res.json(result.rows[0]);
@@ -41,6 +41,7 @@ router.post("/login", async (req, res) => {
   try {
     const result = await db.query(`
       SELECT
+        u.user_id,
         u.user_name,
         u.user_password,
         u.user_birth_date,
@@ -61,6 +62,31 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.patch("/knowledge", async (req, res) => {
+  const { userId, knowledgeLevel } = req.body;
+
+  if (!userId || !knowledgeLevel) {
+    return res.status(400).json({ error: "Not Enough Data" });
+  }
+
+  try {
+    const result = await db.query(
+      `UPDATE users
+      SET user_knowledge_level = $2
+      WHERE user_id = $1
+      RETURNING user_id, user_name, user_knowledge_level`,
+      [ userId, knowledgeLevel ]
+    );
+
+    const user = result.rows[0];
+    if (!user) return res.status(401).json({ error: "Usuario no encontrado" });
+
+    res.json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al registrar el nivel de conocimiento" });
+  }
+});
 
 // Obtener usuarios
 router.get("/all", async (_, res) => {
