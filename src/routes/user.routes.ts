@@ -31,8 +31,39 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  const { name, password } = req.body;
+
+  if (!name || !password) {
+    return res.status(400).json({ error: "Faltan credenciales" });
+  }
+
+  try {
+    const result = await db.query(`
+      SELECT
+        u.user_name,
+        u.user_password,
+        u.user_birth_date,
+        r.role_name
+      FROM users u
+      INNER JOIN roles r ON u.role_id = r.role_id
+      WHERE user_name = $1 AND user_password = $2`,
+      [ name, password ]
+    );
+
+    const user = result.rows[0];
+    if (!user) return res.status(401).json({ error: "Usuario no encontrado" });
+
+    res.json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error en login" });
+  }
+});
+
+
 // Obtener usuarios
-router.get("/", async (_, res) => {
+router.get("/all", async (_, res) => {
   try {
     const result = await db.query(`
       SELECT 
@@ -40,8 +71,7 @@ router.get("/", async (_, res) => {
         u.user_name,
         u.user_password,
         u.user_birth_date,
-        r.role_name,
-        r.role_add_content
+        r.role_name
       FROM users u
       INNER JOIN roles r ON u.role_id = r.role_id
     `);
