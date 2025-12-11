@@ -48,15 +48,15 @@ INSERT INTO roles VALUES
 (DEFAULT, 'Padre', FALSE),
 (DEFAULT, 'Docente', TRUE);
 
--- -- TAGS INSERT
--- INSERT INTO tags (tag_name) VALUES
--- ('Alfabético'),
--- ('Animales'),
--- ('Configuración Manual'),
--- ('Días de la Semana'),
--- ('Frases Comunes'),
--- ('Frutas'),
--- ('Geografía');
+-- TAGS INSERT (DESCOMENTADO PARA QUE FUNCIONE LA IMPORTACIÓN)
+INSERT INTO tags (tag_name) VALUES
+('Alfabético'),
+('Animales'),
+('Configuración Manual'),
+('Días de la Semana'),
+('Frases Comunes'),
+('Frutas'),
+('Geografía');
 
 -- USERS INSERT DATA SAMPLE
 INSERT INTO users (user_name, user_password, user_birth_date, user_email, role_id) VALUES

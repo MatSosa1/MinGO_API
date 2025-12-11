@@ -1,12 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsInt,
-  IsOptional,
-  IsEnum,
-  IsUrl,
-  MinLength,
-} from "class-validator";
+import { IsNotEmpty, IsString, IsInt, IsOptional, IsEnum, IsUrl, MinLength, IsArray } from "class-validator";
 
 export enum SignSection {
   PRINCIPIANTE = "Principiante",
@@ -21,6 +13,11 @@ export class CreateSignDto {
   @MinLength(2)
   sign_title!: string;
 
+  // NUEVO: Para "Frase exacta" u "Oración de ejemplo"
+  @IsNotEmpty() 
+  @IsString()
+  sign_description!: string; 
+
   @IsNotEmpty()
   @IsUrl()
   sign_video_url!: string;
@@ -34,4 +31,10 @@ export class CreateSignDto {
 
   @IsInt()
   tag_id!: number;
+
+  // NUEVO: Sinónimos opcionales en el mismo envío
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  synonyms?: string[]; 
 }

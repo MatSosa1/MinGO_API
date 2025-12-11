@@ -18,12 +18,23 @@ router.post("/", async (req, res) => {
        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [
         dto.sign_title,
+        dto.sign_description,
         dto.sign_video_url,
         dto.sign_image_url ?? null,
         dto.sign_section,
         dto.tag_id,
       ]
     );
+
+    const newSign = result.rows[0];
+    if (dto.synonyms && dto.synonyms.length > 0) {
+      for (const word of dto.synonyms) {
+        await db.query(
+          `INSERT INTO signs_synonyms (synonym_word, sign_id) VALUES ($1, $2)`,
+          [word, newSign.sign_id]
+        );
+      }
+    }
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
