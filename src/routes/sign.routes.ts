@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     if (errors.length > 0) return res.status(400).json({ errors });
 
     const result = await db.query(
-      `INSERT INTO signs (sign_title, sign_video_url, sign_image_url, sign_section, tag_id)
+      `INSERT INTO signs (sign_title, sign_description, sign_video_url, sign_image_url, sign_section, tag_id)
        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [
         dto.sign_title,
@@ -80,10 +80,11 @@ router.put("/:id", async (req, res) => {
 
   const result = await db.query(
     `UPDATE signs
-    SET sign_title = $1, sign_video_url = $2, sign_image_url = $3 sign_section = $4, tag_id = $5
-     WHERE sign_id = $6 RETURNING *`,
+    SET sign_title = $1, sign_description = $2, sign_video_url = $3, sign_image_url = $4 sign_section = $5, tag_id = $6
+     WHERE sign_id = $7 RETURNING *`,
     [
       dto.sign_title,
+      dto.sign_description,
       dto.sign_video_url,
       dto.sign_image_url ?? null,
       dto.sign_section,

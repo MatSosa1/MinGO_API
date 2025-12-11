@@ -47,6 +47,7 @@ router.post("/login", async (req, res) => {
         u.user_email,
         u.user_birth_date,
         u.user_knowledge_level,
+        u.user_first_time_login,
         u.role_id
       FROM users u
       WHERE user_email = $1 AND user_password = $2`,
@@ -100,6 +101,7 @@ router.get("/all", async (_, res) => {
         u.user_email,
         u.user_birth_date,
         u.user_knowledge_level,
+        u.user_first_time_login,
         u.role_id
       FROM users u
     `);

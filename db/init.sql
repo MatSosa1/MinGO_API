@@ -11,6 +11,7 @@ CREATE TABLE users (
     user_email TEXT NOT NULL,
     user_birth_date TIMESTAMP NOT NULL DEFAULT NOW(),
     user_knowledge_level TEXT NOT NULL DEFAULT 'Principiante',  -- Principiante, Intermedio, Avanzado
+    user_first_time_login BOOLEAN NOT NULL DEFAULT TRUE,
     role_id INT NOT NULL,
 
     CONSTRAINT fk_user_role FOREIGN KEY (role_id) REFERENCES roles(role_id)
@@ -29,6 +30,7 @@ CREATE TABLE signs (
     sign_title TEXT NOT NULL,
     sign_video_url TEXT NOT NULL,
     sign_image_url TEXT,  -- optional
+    sign_description TEXT NOT NULL,
     sign_section sign_section_type NOT NULL DEFAULT 'Principiante',
     tag_id INT NOT NULL,
 
