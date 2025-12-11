@@ -7,7 +7,7 @@ import { plainToInstance } from "class-transformer";
 const router = Router();
 
 // Crear usuario
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   const dto = plainToInstance(CreateUserDto, req.body);
   const errors = await validate(dto);
 
@@ -15,13 +15,13 @@ router.post("/", async (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const { user_name, user_password, user_birth_date } = dto;
+  const { user_name, user_password, user_email, user_birth_date, user_knowledge_level, role_id } = dto;
 
   try {
     const result = await db.query(
-      `INSERT INTO users (user_name, user_password, user_birth_date)
-       VALUES ($1, $2, $3) RETURNING *`,
-      [user_name, user_password, user_birth_date]
+      `INSERT INTO users (user_name, user_password, user_email, user_birth_date, user_knowledge_level, role_id)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [user_name, user_password, user_email, user_birth_date, user_knowledge_level, role_id]
     );
 
     res.json(result.rows[0]);
@@ -32,9 +32,9 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!name || !password) {
+  if (!email || !password) {
     return res.status(400).json({ error: "Faltan credenciales" });
   }
 
@@ -44,12 +44,13 @@ router.post("/login", async (req, res) => {
         u.user_id,
         u.user_name,
         u.user_password,
+        u.user_email,
         u.user_birth_date,
-        r.role_name
+        u.user_knowledge_level,
+        u.role_id
       FROM users u
-      INNER JOIN roles r ON u.role_id = r.role_id
-      WHERE user_name = $1 AND user_password = $2`,
-      [ name, password ]
+      WHERE user_email = $1 AND user_password = $2`,
+      [ email, password ]
     );
 
     const user = result.rows[0];
@@ -63,9 +64,9 @@ router.post("/login", async (req, res) => {
 });
 
 router.patch("/knowledge", async (req, res) => {
-  const { userId, knowledgeLevel } = req.body;
+  const { user_id, knowledge_level } = req.body;
 
-  if (!userId || !knowledgeLevel) {
+  if (!user_id || !knowledge_level) {
     return res.status(400).json({ error: "Not Enough Data" });
   }
 
@@ -75,7 +76,7 @@ router.patch("/knowledge", async (req, res) => {
       SET user_knowledge_level = $2
       WHERE user_id = $1
       RETURNING *`,
-      [ userId, knowledgeLevel ]
+      [ user_id, knowledge_level ]
     );
 
     const user = result.rows[0];
@@ -96,10 +97,11 @@ router.get("/all", async (_, res) => {
         u.user_id,
         u.user_name,
         u.user_password,
+        u.user_email,
         u.user_birth_date,
-        r.role_name
+        u.user_knowledge_level,
+        u.role_id
       FROM users u
-      INNER JOIN roles r ON u.role_id = r.role_id
     `);
 
     res.json(result.rows);

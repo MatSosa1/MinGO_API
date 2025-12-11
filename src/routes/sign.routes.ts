@@ -94,6 +94,8 @@ router.delete("/:id", async (req, res) => {
   res.json({ message: "Eliminado" });
 });
 
+// Synonyms
+
 router.post("/:id/synonyms", async (req, res) => {
   const dto = plainToInstance(CreateSignSynonymDto, {
     ...req.body,
@@ -109,7 +111,7 @@ router.post("/:id/synonyms", async (req, res) => {
     [dto.synonym_word, dto.sign_id]
   );
 
-  res.json(result.rows[0]);
+  res.status(201).json(result.rows[0]);
 });
 
 router.get("/:id/synonyms", async (req, res) => {

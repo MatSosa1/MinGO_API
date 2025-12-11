@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
       `INSERT INTO tags (tag_name) VALUES ($1) RETURNING *`,
       [dto.tag_name]
     );
-    res.json(result.rows[0]);
+    res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error al crear tag" });

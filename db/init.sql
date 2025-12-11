@@ -8,6 +8,7 @@ CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     user_name VARCHAR(20) NOT NULL,
     user_password TEXT NOT NULL,
+    user_email TEXT NOT NULL,
     user_birth_date TIMESTAMP NOT NULL DEFAULT NOW(),
     user_knowledge_level TEXT NOT NULL DEFAULT 'Principiante',  -- Principiante, Intermedio, Avanzado
     role_id INT NOT NULL,
@@ -58,6 +59,6 @@ INSERT INTO roles VALUES
 -- ('Geografía');
 
 -- USERS INSERT DATA SAMPLE
-INSERT INTO users (user_name, user_password, user_birth_date, role_id) VALUES
-('Padre1', 'padre123', NOW(), 1),
-('Docente1', 'docente123', NOW(), 2);
+INSERT INTO users (user_name, user_password, user_birth_date, user_email, role_id) VALUES
+('Padre1', 'padre123', NOW(), 'padre123@hola.com', 1),
+('Docente1', 'docente123', NOW(), 'docente123@hola.com', 2);
