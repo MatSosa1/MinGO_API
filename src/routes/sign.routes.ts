@@ -32,10 +32,26 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (_, res) => {
-  const result = await db.query(`SELECT * FROM signs`);
-  res.json(result.rows);
+router.get("/", async (req, res) => {
+  const { section } = req.query;
+  
+  let queryText = "SELECT * FROM signs";
+  let queryValues: Array<string> = [];
+  
+  if (section) {
+    queryText = "SELECT * FROM signs WHERE sign_section = $1";
+    queryValues = [section as string];
+  }
+  
+  try {
+    const result = await db.query(queryText, queryValues);
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error executing query", err);
+    res.status(500).send("Internal Server Error");
+  }
 });
+
 
 router.get("/:id", async (req, res) => {
   const result = await db.query(
