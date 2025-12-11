@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
 
     const result = await db.query(
       `INSERT INTO signs (sign_title, sign_description, sign_video_url, sign_image_url, sign_section, tag_id)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [
         dto.sign_title,
         dto.sign_description,

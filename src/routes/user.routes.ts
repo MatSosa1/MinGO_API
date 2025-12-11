@@ -15,18 +15,42 @@ router.post("/register", async (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const { user_name, user_password, user_email, user_birth_date, user_knowledge_level, role_id } = dto;
+  const { 
+    user_name, 
+    user_password, 
+    user_email, 
+    user_birth_date, 
+    user_knowledge_level, 
+    role_id,
+    user_first_time_login
+  } = dto;
 
   try {
     const result = await db.query(
-      `INSERT INTO users (user_name, user_password, user_email, user_birth_date, user_knowledge_level, role_id)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [user_name, user_password, user_email, user_birth_date, user_knowledge_level, role_id]
+      `INSERT INTO users (
+         user_name, 
+         user_password, 
+         user_email, 
+         user_birth_date, 
+         user_knowledge_level, 
+         role_id,
+         user_first_time_login
+       )
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [
+        user_name, 
+        user_password, 
+        user_email, 
+        user_birth_date, 
+        user_knowledge_level, 
+        role_id,
+        user_first_time_login
+      ]
     );
 
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
+    console.error(error); // Mira la terminal de la API para ver el detalle exacto del error SQL
     res.status(500).json({ error: "Error al crear usuario" });
   }
 });
