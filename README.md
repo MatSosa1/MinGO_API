@@ -92,6 +92,9 @@ Las rutas existentes están ubicadas en el [archivo de rutas](src/routes/user.ro
 /
 : Obtener todas las señas
 
+/?section=:section
+: Obtiene todas las señas de cierta sección (Principiante, Intermedio, Avanzado, Frases Comunes)
+
 /:id
 : Obtener la seña de id especificada
 
